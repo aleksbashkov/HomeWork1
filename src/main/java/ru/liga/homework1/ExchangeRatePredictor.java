@@ -27,7 +27,7 @@ public class ExchangeRatePredictor {
      * Прогнозирование на завтра
      * @param currency валюта
      */
-    public void printTomorrowExchangeRate(Currency currency) {
+    public void printTomorrowExchangeRate(ru.liga.homework1.Enum.Currency currency) {
         printExchangeRate(currency, true);
     }
 
@@ -35,11 +35,11 @@ public class ExchangeRatePredictor {
      * Прогнозирование на неделю
      * @param currency валюта
      */
-    public void printNextWeekExchangeRate(Currency currency) {
+    public void printNextWeekExchangeRate(ru.liga.homework1.Enum.Currency currency) {
         printExchangeRate(currency, false);
     }
 
-    private void printExchangeRate(Currency currency, boolean tomorrowOnly) {
+    private void printExchangeRate(ru.liga.homework1.Enum.Currency currency, boolean tomorrowOnly) {
         var exchangeRateData = GetOrderedRateData(currency);
         if (exchangeRateData == null || exchangeRateData.size() == 0)
             throw new RuntimeException("No data for currency " + currency.name());
@@ -74,7 +74,7 @@ public class ExchangeRatePredictor {
       * @param currency валюта
      * @return Уопрядоченный по дате набор пар (дата, курс)
      */
-    private List<Map.Entry<LocalDate, BigDecimal>> GetOrderedRateData(Currency currency) {
+    private List<Map.Entry<LocalDate, BigDecimal>> GetOrderedRateData(ru.liga.homework1.Enum.Currency currency) {
         List<String> lines;
         try {
             var inputStream = getClass().getResourceAsStream(String.format("/%s.csv", currency.name()));

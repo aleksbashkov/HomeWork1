@@ -1,5 +1,7 @@
 package ru.liga.homework1;
 
+import ru.liga.homework1.Enum.Period;
+
 import java.util.*;
 
 public class Main {

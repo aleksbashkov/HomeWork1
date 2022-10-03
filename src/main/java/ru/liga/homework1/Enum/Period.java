@@ -1,9 +1,9 @@
-package ru.liga.homework1;
+package ru.liga.homework1.Enum;
 
 /**
  * Период прогноза
  */
-enum Period {
+public enum Period {
     TOMORROW,
     WEEK
 }
