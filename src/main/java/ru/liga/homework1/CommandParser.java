@@ -12,19 +12,24 @@ import java.util.Arrays;
  */
 public class CommandParser {
 
+    private static final int ColRateCommandNum = 0;
+    private static final int ColCurrencyNum = 1;
+    private static final int ColPeriodNum = 2;
     private final Currency currency;
     private final Period period;
 
     public CommandParser(String command) {
         var cmdEntities = command.split("\\s+");
-        if (cmdEntities == null || cmdEntities.length != 3 || !cmdEntities[0].equals("rate"))
+        if (cmdEntities == null || cmdEntities.length != 3 || !cmdEntities[ColRateCommandNum].toLowerCase().equals("rate"))
             throw new InvalidParameterException("Invalid command");
-        if (Arrays.stream(Currency.values()).noneMatch(cur -> cur.name().equals(cmdEntities[1].toUpperCase())))
-            throw new InvalidParameterException("Unknown currency " + cmdEntities[1]);
-        currency = Currency.valueOf(cmdEntities[1].toUpperCase());
-        if (Arrays.stream(Period.values()).noneMatch(per -> per.name().equals(cmdEntities[2].toUpperCase())))
-            throw new InvalidParameterException("Unknown period " + cmdEntities[2]);
-        period = Period.valueOf(cmdEntities[2].toUpperCase().toUpperCase());
+        String currencyString = cmdEntities[ColCurrencyNum];
+        if (Arrays.stream(Currency.values()).noneMatch(cur -> cur.name().equals(currencyString.toUpperCase())))
+            throw new InvalidParameterException("Unknown currency " + currencyString);
+        currency = Currency.valueOf(currencyString.toUpperCase());
+        String periodString = cmdEntities[ColPeriodNum];
+        if (Arrays.stream(Period.values()).noneMatch(per -> per.name().equals(periodString.toUpperCase())))
+            throw new InvalidParameterException("Unknown period " + periodString);
+        period = Period.valueOf(periodString.toUpperCase());
     }
 
     /**
