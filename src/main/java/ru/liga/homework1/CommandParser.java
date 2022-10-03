@@ -19,12 +19,12 @@ public class CommandParser {
         var cmdEntities = command.split("\\s+");
         if (cmdEntities == null || cmdEntities.length != 3 || !cmdEntities[0].equals("rate"))
             throw new InvalidParameterException("Invalid command");
-        if (Arrays.stream(Currency.values()).noneMatch(cur -> cur.name().equals(cmdEntities[1])))
+        if (Arrays.stream(Currency.values()).noneMatch(cur -> cur.name().equals(cmdEntities[1].toUpperCase())))
             throw new InvalidParameterException("Unknown currency " + cmdEntities[1]);
-        currency = Currency.valueOf(cmdEntities[1]);
-        if (Arrays.stream(Period.values()).noneMatch(per -> per.name().toLowerCase().equals(cmdEntities[2])))
+        currency = Currency.valueOf(cmdEntities[1].toUpperCase());
+        if (Arrays.stream(Period.values()).noneMatch(per -> per.name().equals(cmdEntities[2].toUpperCase())))
             throw new InvalidParameterException("Unknown period " + cmdEntities[2]);
-        period = Period.valueOf(cmdEntities[2].toUpperCase());
+        period = Period.valueOf(cmdEntities[2].toUpperCase().toUpperCase());
     }
 
     /**
