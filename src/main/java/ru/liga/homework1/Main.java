@@ -6,6 +6,19 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        boolean isError;
+        do {
+            try {
+                doExchangeRatePrediction();
+                isError = false;
+            } catch (Exception e) {
+                System.out.println("Exception occurs: " + e.toString());
+                isError = true;
+            }
+        } while (!isError);
+    }
+
+    private static void doExchangeRatePrediction() {
         System.out.println("Enter command:");
 
         // парсим введёную пользователем команду:
