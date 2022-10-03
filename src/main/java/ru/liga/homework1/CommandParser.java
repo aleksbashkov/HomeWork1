@@ -1,7 +1,7 @@
 package ru.liga.homework1;
 
-import ru.liga.homework1.Enum.Currency;
-import ru.liga.homework1.Enum.Period;
+import ru.liga.homework1.Enums.Currency;
+import ru.liga.homework1.Enums.Period;
 
 import java.security.InvalidParameterException;
 import java.util.Arrays;

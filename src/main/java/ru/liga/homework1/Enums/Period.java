@@ -1,4 +1,4 @@
-package ru.liga.homework1.Enum;
+package ru.liga.homework1.Enums;
 
 /**
  * Период прогноза
