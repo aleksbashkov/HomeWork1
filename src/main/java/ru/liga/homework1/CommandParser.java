@@ -2,13 +2,12 @@ package ru.liga.homework1;
 
 import ru.liga.homework1.Enums.Currency;
 import ru.liga.homework1.Enums.Period;
+import ru.liga.homework1.Exceptions.InvalidCommandException;
 
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 
 /**
  * Разбирает введённую пользователем строку.
- * Может кидать unchecked-исключения InvalidParameterException.
  */
 public class CommandParser {
 
@@ -18,17 +17,17 @@ public class CommandParser {
     private final Currency currency;
     private final Period period;
 
-    public CommandParser(String command) {
+    public CommandParser(String command) throws InvalidCommandException {
         var cmdEntities = command.split("\\s+");
         if (cmdEntities == null || cmdEntities.length != 3 || !cmdEntities[ColRateCommandNum].toLowerCase().equals("rate"))
-            throw new InvalidParameterException("Invalid command");
+            throw new InvalidCommandException("Invalid command. Valid command is 'rate <Currency> <Period>'");
         String currencyString = cmdEntities[ColCurrencyNum];
         if (Arrays.stream(Currency.values()).noneMatch(cur -> cur.name().equals(currencyString.toUpperCase())))
-            throw new InvalidParameterException("Unknown currency " + currencyString);
+            throw new InvalidCommandException("Unknown currency " + currencyString);
         currency = Currency.valueOf(currencyString.toUpperCase());
         String periodString = cmdEntities[ColPeriodNum];
         if (Arrays.stream(Period.values()).noneMatch(per -> per.name().equals(periodString.toUpperCase())))
-            throw new InvalidParameterException("Unknown period " + periodString);
+            throw new InvalidCommandException("Unknown period " + periodString);
         period = Period.valueOf(periodString.toUpperCase());
     }
 

@@ -1,24 +1,25 @@
 package ru.liga.homework1;
 
 import ru.liga.homework1.Enums.Period;
+import ru.liga.homework1.Exceptions.InvalidCommandException;
 
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        boolean isError;
+        boolean isCommandValid = true;
         do {
             try {
                 doExchangeRatePrediction();
-                isError = false;
-            } catch (Exception e) {
-                System.out.println("Exception occurs: " + e.toString());
-                isError = true;
+            } catch (InvalidCommandException e) {
+                System.out.println(e.toString());
+                System.out.println("Try one more time.");
+                isCommandValid = false;
             }
-        } while (!isError);
+        } while (isCommandValid);
     }
 
-    private static void doExchangeRatePrediction() {
+    private static void doExchangeRatePrediction() throws InvalidCommandException {
         System.out.println("Enter command:");
 
         // парсим введёную пользователем команду:
