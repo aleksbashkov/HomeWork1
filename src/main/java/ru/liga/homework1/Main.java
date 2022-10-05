@@ -7,20 +7,21 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        boolean isCommandValid = true;
+        boolean isCommandValid;
         do {
             try {
                 doExchangeRatePrediction();
+                isCommandValid = true;
             } catch (InvalidCommandException e) {
-                System.out.println(e.toString());
-                System.out.println("Try one more time.");
+                System.out.println(e.getMessage());
+                System.out.println("Попробуйте ещё раз.");
                 isCommandValid = false;
             }
-        } while (isCommandValid);
+        } while (!isCommandValid);
     }
 
     private static void doExchangeRatePrediction() throws InvalidCommandException {
-        System.out.println("Enter command:");
+        System.out.println("Введите команду:");
 
         // парсим введёную пользователем команду:
         Scanner in = new Scanner(System.in);

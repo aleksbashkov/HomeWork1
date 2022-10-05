@@ -43,7 +43,7 @@ public class ExchangeRatePredictor {
         var exchangeRateData = GetOrderedRateData(currency);
         if (exchangeRateData == null || exchangeRateData.size() == 0)
             throw new RuntimeException("No data for currency " + currency.name());
-        var values = new ArrayList<>(exchangeRateData.stream().map(item -> item.getValue()).toList());
+        var values = new ArrayList<>(exchangeRateData.stream().map(Map.Entry::getValue).toList());
         var tomorrow = LocalDate.now().plusDays(1);
         var last = exchangeRateData.get(exchangeRateData.size()-1);
         boolean existsTomorrowValue = last.getKey().equals(tomorrow);
@@ -78,14 +78,16 @@ public class ExchangeRatePredictor {
         List<String> lines;
         try {
             var inputStream = getClass().getResourceAsStream(String.format("/%s.csv", currency.name()));
+            if (inputStream == null)
+                throw new RuntimeException("Не найден файл с данными для валюты " + currency.name());
             var bf = new BufferedReader(new InputStreamReader(inputStream));
-            var header = bf.readLine();
+            bf.readLine(); // read csv header
             lines = bf.lines().toList();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        if (lines == null || lines.size() == 0)
-            throw new RuntimeException("No data for currency " + currency.name());
+        if (lines.size() == 0)
+            throw new RuntimeException("Нет данных для валюты " + currency.name());
 
         var res = new ArrayList<Map.Entry<LocalDate, BigDecimal>>();
         for (var line : lines)

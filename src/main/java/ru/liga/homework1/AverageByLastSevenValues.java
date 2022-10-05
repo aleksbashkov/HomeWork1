@@ -16,7 +16,7 @@ public class AverageByLastSevenValues implements PredictionAlgorithm {
     public BigDecimal doPrediction(final List<BigDecimal> exchangeRates) {
         int cnt = exchangeRates.size();
         if (cnt < AVERAGE_WINDOW)
-            throw new InvalidParameterException("Incomplete exchange rate list");
+            throw new InvalidParameterException("В списке курсов слишком мало значений");
         BigDecimal sum = new BigDecimal(0);
         for (int i = cnt-1; i >= cnt-AVERAGE_WINDOW; i--)
             sum = sum.add(exchangeRates.get(i));

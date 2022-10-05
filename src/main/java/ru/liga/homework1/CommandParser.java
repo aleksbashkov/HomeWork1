@@ -19,15 +19,15 @@ public class CommandParser {
 
     public CommandParser(String command) throws InvalidCommandException {
         var cmdEntities = command.split("\\s+");
-        if (cmdEntities == null || cmdEntities.length != 3 || !cmdEntities[ColRateCommandNum].toLowerCase().equals("rate"))
-            throw new InvalidCommandException("Invalid command. Valid command is 'rate <Currency> <Period>'");
+        if (cmdEntities.length != 3 || !cmdEntities[ColRateCommandNum].equalsIgnoreCase("rate"))
+            throw new InvalidCommandException("Неверная команда. Команда должна иметь вид 'rate <Currency> <Period>'");
         String currencyString = cmdEntities[ColCurrencyNum];
         if (Arrays.stream(Currency.values()).noneMatch(cur -> cur.name().equals(currencyString.toUpperCase())))
-            throw new InvalidCommandException("Unknown currency " + currencyString);
+            throw new InvalidCommandException("Неизвестная валюта " + currencyString);
         currency = Currency.valueOf(currencyString.toUpperCase());
         String periodString = cmdEntities[ColPeriodNum];
         if (Arrays.stream(Period.values()).noneMatch(per -> per.name().equals(periodString.toUpperCase())))
-            throw new InvalidCommandException("Unknown period " + periodString);
+            throw new InvalidCommandException("Неизвестный период " + periodString);
         period = Period.valueOf(periodString.toUpperCase());
     }
 
