@@ -27,6 +27,7 @@ public class Main {
         Scanner in = new Scanner(System.in);
         String cmd = in.nextLine();
         var parameters = CommandParser.ParseCommand(cmd);
+        System.out.println(parameters);
 
         // выводим курс валюты на завтра или на следующую неделю:
         var predictor = new ExchangeRatePredictor(new AverageByLastSevenValues(), new SimpleFormatter());

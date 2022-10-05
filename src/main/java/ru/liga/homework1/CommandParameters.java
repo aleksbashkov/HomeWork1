@@ -11,4 +11,9 @@ public class CommandParameters {
         this.currency = currency;
         this.period = period;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Currency: %s, Period: %s", currency, period);
+    }
 }
