@@ -11,6 +11,6 @@ public enum Currency {
     TRY;
 
     public static boolean checkCurrencyName(String currencyName) {
-        return Arrays.stream(Currency.values()).noneMatch(cur -> cur.name().equals(currencyName));
+        return Arrays.stream(Currency.values()).anyMatch(cur -> cur.name().equals(currencyName));
     }
 }
