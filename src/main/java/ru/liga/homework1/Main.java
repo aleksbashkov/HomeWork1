@@ -26,15 +26,13 @@ public class Main {
         // парсим введёную пользователем команду:
         Scanner in = new Scanner(System.in);
         String cmd = in.nextLine();
-        var cmdParser = new CommandParser(cmd);
-        var period = cmdParser.getPeriod();
-        var currency = cmdParser.getCurrency();
+        var parameters = CommandParser.ParseCommand(cmd);
 
         // выводим курс валюты на завтра или на следующую неделю:
         var predictor = new ExchangeRatePredictor(new AverageByLastSevenValues(), new SimpleFormatter());
-        if (period == Period.TOMORROW)
-            predictor.printTomorrowExchangeRate(currency);
+        if (parameters.period == Period.TOMORROW)
+            predictor.printTomorrowExchangeRate(parameters.currency);
         else
-            predictor.printNextWeekExchangeRate(currency);
+            predictor.printNextWeekExchangeRate(parameters.currency);
     }
 }
