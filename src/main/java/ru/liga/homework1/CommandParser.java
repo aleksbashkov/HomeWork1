@@ -12,10 +12,20 @@ public class CommandParser {
     private static final int ColRateCommandNum = 0;
     private static final int ColCurrencyNum = 1;
     private static final int ColPeriodNum = 2;
-    private final Currency currency;
-    private final Period period;
+    private Currency currency;
+    private Period period;
+    private final String command;
+    private boolean isParsed = false;
 
-    public CommandParser(String command) throws InvalidCommandException {
+    public CommandParser(String command) {
+        this.command = command;
+    }
+
+    /**
+     * Парсит команду
+     * @throws InvalidCommandException - кидает исключение в случае неверной команды
+     */
+    private void ParseCommand() throws InvalidCommandException {
         var cmdEntities = command.split("\\s+");
         if (cmdEntities.length != 3 || !cmdEntities[ColRateCommandNum].equalsIgnoreCase("rate"))
             throw new InvalidCommandException("Неверная команда. Команда должна иметь вид 'rate <Currency> <Period>'");
@@ -27,13 +37,16 @@ public class CommandParser {
         if (!Period.checkPeriodName(periodString))
             throw new InvalidCommandException("Неизвестный период " + periodString);
         period = Period.valueOf(periodString);
+        isParsed = true;
     }
 
     /**
      * Возвращает валюту
      * @return заданная пользователем валюта
      */
-    public Currency getCurrency() {
+    public Currency getCurrency() throws InvalidCommandException {
+        if (!isParsed)
+            ParseCommand();
         return currency;
     }
 
@@ -41,7 +54,9 @@ public class CommandParser {
      * Возвращает период прогноза
      * @return заданный пользователем период прогноза
      */
-    public  Period getPeriod() {
+    public  Period getPeriod() throws InvalidCommandException {
+        if (!isParsed)
+            ParseCommand();
         return period;
     }
 }
