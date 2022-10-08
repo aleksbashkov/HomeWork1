@@ -1,8 +1,9 @@
 package ru.liga.homework1;
 
-import ru.liga.homework1.Enums.Period;
 import ru.liga.homework1.Exceptions.InvalidCommandException;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
@@ -23,17 +24,24 @@ public class Main {
     private static void doExchangeRatePrediction() throws InvalidCommandException {
         System.out.println("Введите команду:");
 
-        // парсим введёную пользователем команду:
+        // парсим введёную пользователем команду и добываем оттуда параметры:
         Scanner in = new Scanner(System.in);
         String cmd = in.nextLine();
         var parameters = CommandParser.ParseCommand(cmd);
-        System.out.println(parameters);
 
-        // выводим курс валюты на завтра или на следующую неделю:
-        var predictor = new ExchangeRatePredictor(new AverageByLastSevenValues(), new SimpleFormatter());
-        if (parameters.period == Period.TOMORROW)
-            predictor.printTomorrowExchangeRate(parameters.currency);
-        else
-            predictor.printNextWeekExchangeRate(parameters.currency);
+        // получаем исходные данные:
+        var exchangeRateData = ExchangeRateDataProvider.getSortedExchangeRateData(parameters.currency);
+
+        // прогнозируем курс валюты на завтра или на следующую неделю алгоритмом AverageByLastSevenValues:
+        var predictor = new ExchangeRatePredictor(exchangeRateData);
+        var result = predictor.doPrediction(new AverageByLastSevenValues(), parameters.period);
+
+        // выводим результат в консоль, используя форматтер SimpleFormatter:
+        printPredictionResult(result, new SimpleFormatter());
+    }
+
+    private static void printPredictionResult(List<Map.Entry<LocalDate, BigDecimal>> prediction, ExchangeRateFormatter formatter) {
+        prediction
+            .forEach(entry -> System.out.println(formatter.formatCurrencyRate(entry.getKey(), entry.getValue())));
     }
 }

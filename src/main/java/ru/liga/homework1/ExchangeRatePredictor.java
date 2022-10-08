@@ -1,110 +1,55 @@
 package ru.liga.homework1;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import ru.liga.homework1.Enums.Period;
 
-/**
- * Осуществляет прогнозирование курса валюты и вывод результата
- */
 public class ExchangeRatePredictor {
 
-    final private PredictionAlgorithm algorithm;
-    final private ExchangeRateFormatter formatter;
-    final private DateTimeFormatter csvDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    final List<Map.Entry<LocalDate, BigDecimal>> incomingData;
 
-    public ExchangeRatePredictor(final PredictionAlgorithm algorithm,
-                                 final ExchangeRateFormatter formatter) {
-        this.algorithm = algorithm;
-        this.formatter = formatter;
+    /**
+     * Конструктор
+      * @param exchangeRateData - входные данные курсов валюты
+     */
+    public ExchangeRatePredictor(List<Map.Entry<LocalDate, BigDecimal>> exchangeRateData) {
+        incomingData = exchangeRateData;
     }
 
     /**
-     * Прогнозирование на завтра
-     * @param currency валюта
+     * Осуществляет прогнозирование курса валюты
+      * @param algorithm алгоритм, который осуществляет прогнозирование
+     * @param period - период, на который осуществляется прогнозирование
+     * @return - прогноз в виде списка пар (дата, курс валюты)
      */
-    public void printTomorrowExchangeRate(ru.liga.homework1.Enums.Currency currency) {
-        printExchangeRate(currency, true);
-    }
+    public List<Map.Entry<LocalDate, BigDecimal>> doPrediction(PredictionAlgorithm algorithm, Period period) {
+        var result = new ArrayList<Map.Entry<LocalDate, BigDecimal>>();
 
-    /**
-     * Прогнозирование на неделю
-     * @param currency валюта
-     */
-    public void printNextWeekExchangeRate(ru.liga.homework1.Enums.Currency currency) {
-        printExchangeRate(currency, false);
-    }
-
-    private void printExchangeRate(ru.liga.homework1.Enums.Currency currency, boolean tomorrowOnly) {
-        var exchangeRateData = GetOrderedRateData(currency);
-        if (exchangeRateData == null || exchangeRateData.size() == 0)
-            throw new RuntimeException("No data for currency " + currency.name());
-        var values = new ArrayList<>(exchangeRateData.stream().map(Map.Entry::getValue).toList());
+        var values = new ArrayList<>(incomingData.stream().map(Map.Entry::getValue).toList()); // только курсы, без привязки к датам
         var tomorrow = LocalDate.now().plusDays(1);
-        var last = exchangeRateData.get(exchangeRateData.size()-1);
-        boolean existsTomorrowValue = last.getKey().equals(tomorrow);
-        var tomorrowExchangeRate = existsTomorrowValue
-                ? last.getValue()
-                : algorithm.doPrediction(values);
-        System.out.println(
-                formatter.formatCurrencyRate(tomorrow, tomorrowExchangeRate));
-
-        if (tomorrowOnly)
-            return;
-
-        // прогноз ещё на 6 дней:
-        if (!existsTomorrowValue) {
-            values.add(tomorrowExchangeRate);
+        var last = incomingData.get(incomingData.size()-1);
+        BigDecimal tomorrowValue;
+        if (last.getKey().equals(tomorrow)) { // завтрашний курс уже может быть во входящих данных, тогда его прогнозировать не надо
+            tomorrowValue = last.getValue();
         }
-        for (int i = 1; i < 7; i++) {
-            var newValue = algorithm.doPrediction(values);
-            System.out.println(
-                    formatter.formatCurrencyRate(tomorrow.plusDays(i), newValue));
-            values.add(newValue);
+        else {
+            tomorrowValue = algorithm.doPrediction(values);
+            values.add(tomorrowValue);
         }
-    }
+        result.add(new AbstractMap.SimpleImmutableEntry<>(tomorrow, tomorrowValue)); // добавляем в результат значение на завтра
 
-    /**
-     * Считывает данные из csv-файла и сортирует их по дате.
-     * Может кинуть RuntimeException.
-      * @param currency валюта
-     * @return Уопрядоченный по дате набор пар (дата, курс)
-     */
-    private List<Map.Entry<LocalDate, BigDecimal>> GetOrderedRateData(ru.liga.homework1.Enums.Currency currency) {
-        List<String> lines;
-        try {
-            var inputStream = getClass().getResourceAsStream(String.format("/%s.csv", currency.name()));
-            if (inputStream == null)
-                throw new RuntimeException("Не найден файл с данными для валюты " + currency.name());
-            var bf = new BufferedReader(new InputStreamReader(inputStream));
-            bf.readLine(); // read csv header
-            lines = bf.lines().toList();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (period == Period.WEEK) { // если нужен прогноз на неделю, то делаем прогнозирование ещё на 6 дней
+            for (int i = 1; i < 7; i++) {
+                var newValue = algorithm.doPrediction(values);
+                result.add(new AbstractMap.SimpleImmutableEntry<>(tomorrow.plusDays(i), newValue));
+                values.add(newValue);
+            }
         }
-        if (lines.size() == 0)
-            throw new RuntimeException("Нет данных для валюты " + currency.name());
 
-        var res = new ArrayList<Map.Entry<LocalDate, BigDecimal>>();
-        for (var line : lines)
-            res.add(parseCsvString(line));
-        return res.stream().sorted(Map.Entry.comparingByKey()).toList();
-    }
-
-    /**
-     * Парсит строку csv-файла
-     * @param csvLine строка csv-файла
-     * @return Пара (дата, курс)
-     */
-    private Map.Entry<LocalDate, BigDecimal> parseCsvString(String csvLine) {
-        var parts = csvLine.split(";");
-        int cnt = Integer.parseInt(parts[0].replace(" ", ""));
-        LocalDate date = LocalDate.parse(parts[1], csvDateFormatter);
-        double rate = Double.parseDouble(parts[2].replace(',', '.'));
-        return new AbstractMap.SimpleImmutableEntry<>(date, new BigDecimal(rate/cnt));
+        return result;
     }
 }
