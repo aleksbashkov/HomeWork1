@@ -1,6 +1,6 @@
 package ru.liga.homework1;
 
-import ru.liga.homework1.Enums.Currency;
+import ru.liga.homework1.enums.Currency;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

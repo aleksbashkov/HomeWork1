@@ -1,8 +1,8 @@
 package ru.liga.homework1;
 
-import ru.liga.homework1.Enums.Currency;
-import ru.liga.homework1.Enums.Period;
-import ru.liga.homework1.Exceptions.InvalidCommandException;
+import ru.liga.homework1.enums.Currency;
+import ru.liga.homework1.enums.Period;
+import ru.liga.homework1.exceptions.InvalidCommandException;
 
 /**
  * Разбирает введённую пользователем строку.

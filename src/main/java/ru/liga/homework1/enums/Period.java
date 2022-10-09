@@ -1,4 +1,4 @@
-package ru.liga.homework1.Enums;
+package ru.liga.homework1.enums;
 
 import java.util.Arrays;
 

@@ -6,7 +6,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import ru.liga.homework1.Enums.Period;
+import ru.liga.homework1.enums.Period;
 
 public class ExchangeRatePredictor {
 

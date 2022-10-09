@@ -1,4 +1,4 @@
-package ru.liga.homework1.Exceptions;
+package ru.liga.homework1.exceptions;
 
 /**
  * Исключение, выкидываемое в случае неверной команды
