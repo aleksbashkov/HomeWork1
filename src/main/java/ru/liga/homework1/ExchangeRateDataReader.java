@@ -20,9 +20,9 @@ class ExchangeRateDataReader {
      * Читает курсы из указанного файла csv
      * Может кинуть RuntimeException.
       * @param csvFileName - имя csv файла
-     * @return Список курсов в зависимости от даты
+     * @return Список курсов с датами
      */
-    public List<Map.Entry<LocalDate, BigDecimal>> readExchangeData(String csvFileName) {
+    public List<RateForDate> readExchangeData(String csvFileName) {
         Stream<String> lines;
         try {
             var inputStream = getClass().getResourceAsStream(csvFileName);
@@ -35,21 +35,19 @@ class ExchangeRateDataReader {
             throw new RuntimeException(e);
         }
 
-        var res = new ArrayList<Map.Entry<LocalDate, BigDecimal>>();
+        var res = new ArrayList<RateForDate>();
         lines.forEach(line -> res.add(parseCsvString(line)));
         return res;
     }
 
     /**
      * Парсит строку csv-файла.
-     * @param csvLine строка csv-файла
-     * @return Пара (дата, курс)
      */
-    private Map.Entry<LocalDate, BigDecimal> parseCsvString(String csvLine) {
+    private RateForDate parseCsvString(String csvLine) {
         var parts = csvLine.split(";");
         int cnt = Integer.parseInt(parts[0].replace(" ", ""));
         LocalDate date = LocalDate.parse(parts[1], csvDateFormatter);
         double rate = Double.parseDouble(parts[2].replace(',', '.'));
-        return new AbstractMap.SimpleImmutableEntry<>(date, new BigDecimal(rate/cnt));
+        return new RateForDate(date, new BigDecimal(rate/cnt));
     }
 }

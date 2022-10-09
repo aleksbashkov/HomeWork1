@@ -2,8 +2,6 @@ package ru.liga.homework1;
 
 import ru.liga.homework1.exceptions.InvalidCommandException;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
@@ -40,8 +38,8 @@ public class Main {
         printPredictionResult(result, new SimpleFormatter());
     }
 
-    private static void printPredictionResult(List<Map.Entry<LocalDate, BigDecimal>> prediction, ExchangeRateFormatter formatter) {
+    private static void printPredictionResult(List<RateForDate> prediction, ExchangeRateFormatter formatter) {
         prediction
-            .forEach(entry -> System.out.println(formatter.formatCurrencyRate(entry.getKey(), entry.getValue())));
+            .forEach(rate -> System.out.println(formatter.formatCurrencyRate(rate)));
     }
 }
