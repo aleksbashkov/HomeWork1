@@ -39,7 +39,6 @@ public class Main {
     }
 
     private static void printPredictionResult(List<RateForDate> prediction, ExchangeRateFormatter formatter) {
-        Collections.reverse(prediction);
         prediction
             .forEach(rate -> System.out.println(formatter.formatCurrencyRate(rate)));
     }
