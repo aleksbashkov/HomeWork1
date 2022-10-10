@@ -24,7 +24,7 @@ public class ExchangeRatePredictor {
      * @param period - период, на который осуществляется прогнозирование
      * @return - прогноз в виде списка объектов типа RateForDate
      */
-    public List<RateForDate> doPrediction(PredictionAlgorithm algorithm, Period period) {
+    public List<RateForDate> doPredictionForPeriod(PredictionAlgorithm algorithm, Period period) {
         var result = new ArrayList<RateForDate>();
 
         var values = new ArrayList<>(incomingData.stream().map(RateForDate::getRate).toList()); // только курсы, без привязки к датам

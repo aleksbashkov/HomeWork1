@@ -32,13 +32,14 @@ public class Main {
 
         // прогнозируем курс валюты на завтра или на следующую неделю алгоритмом AverageByLastSevenValues:
         var predictor = new ExchangeRatePredictor(exchangeRateData);
-        var result = predictor.doPrediction(new AverageByLastSevenValues(), parameters.getPeriod());
+        var result = predictor.doPredictionForPeriod(new AverageByLastSevenValues(), parameters.getPeriod());
 
         // выводим результат в консоль, используя форматтер SimpleFormatter:
         printPredictionResult(result, new SimpleFormatter());
     }
 
     private static void printPredictionResult(List<RateForDate> prediction, ExchangeRateFormatter formatter) {
+        Collections.reverse(prediction);
         prediction
             .forEach(rate -> System.out.println(formatter.formatCurrencyRate(rate)));
     }
