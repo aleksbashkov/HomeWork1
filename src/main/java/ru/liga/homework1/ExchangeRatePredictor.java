@@ -27,7 +27,6 @@ public class ExchangeRatePredictor {
     public List<RateForDate> doPredictionForPeriod(PredictionAlgorithm algorithm, Period period) {
         var result = new ArrayList<RateForDate>();
 
-        var values = new ArrayList<>(incomingData.stream().map(RateForDate::getRate).toList()); // только курсы, без привязки к датам
         var tomorrow = LocalDate.now().plusDays(1);
         var last = incomingData.get(incomingData.size()-1);
         BigDecimal tomorrowValue;
@@ -35,16 +34,18 @@ public class ExchangeRatePredictor {
             tomorrowValue = last.getRate();
         }
         else {
-            tomorrowValue = algorithm.doPrediction(values);
-            values.add(tomorrowValue);
+            tomorrowValue = algorithm.doPrediction(incomingData, tomorrow);
+            incomingData.add(new RateForDate(tomorrow, tomorrowValue));
         }
         result.add(new RateForDate(tomorrow, tomorrowValue)); // добавляем в результат значение на завтра
 
         if (period == Period.WEEK) { // если нужен прогноз на неделю, то делаем прогнозирование ещё на 6 дней
             for (int i = 1; i < 7; i++) {
-                var newValue = algorithm.doPrediction(values);
-                result.add(new RateForDate(tomorrow.plusDays(i), newValue));
-                values.add(newValue);
+                var newDate = tomorrow.plusDays(i);
+                var newValue = algorithm.doPrediction(incomingData, newDate);
+                var newRate = new RateForDate(newDate, newValue);
+                result.add(newRate);
+                incomingData.add(newRate);
             }
         }
 
