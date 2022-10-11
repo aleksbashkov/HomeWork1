@@ -24,13 +24,13 @@ class ExchangeRateDataReader {
      */
     public List<RateForDate> readExchangeData(String csvFileName) {
         Stream<String> lines;
-        try {
-            var inputStream = getClass().getResourceAsStream(csvFileName);
+        try (var inputStream = getClass().getResourceAsStream(csvFileName)) {
             if (inputStream == null)
                 throw new RuntimeException("Не найден файл " + csvFileName);
-            var bf = new BufferedReader(new InputStreamReader(inputStream));
-            bf.readLine(); // read csv header
-            lines = bf.lines();
+            try (var bf = new BufferedReader(new InputStreamReader(inputStream))) {
+                bf.readLine(); // read csv header
+                lines = bf.lines();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
