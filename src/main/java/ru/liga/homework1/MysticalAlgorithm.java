@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Алгоритм, выдающий в качестве прогноза рандомное значение курсов на этот день среди всех предыдущих лет
+ */
 public class MysticalAlgorithm implements PredictionAlgorithm {
     @Override
     public BigDecimal doPrediction(List<RateForDate> exchangeRates, LocalDate dateForPrediction) {
