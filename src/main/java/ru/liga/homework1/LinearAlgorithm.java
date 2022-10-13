@@ -21,17 +21,16 @@ public class LinearAlgorithm implements PredictionAlgorithm {
     }
     @Override
     public BigDecimal doPrediction(List<RateForDate> exchangeRates, LocalDate dateForPrediction) {
-        //RateForDate last = exchangeRates.get(exchangeRates.size()-1);
         var dayCount = exchangeRates.size();
         LocalDate latest = exchangeRates.get(dayCount-1).getDate();
-        LocalDate monthBeforeLatest = latest.minusMonths(1);
-        var modelDayCount = ChronoUnit.DAYS.between(monthBeforeLatest, latest); // число дней в месяце может быть разным, поэтому считаем его
+        LocalDate latestMinusMonth = latest.minusMonths(1);
+        var modelDayCount = ChronoUnit.DAYS.between(latestMinusMonth, latest); // число дней в месяце может быть разным, поэтому считаем его
         var lastMonthValues = exchangeRates.stream()
                 .skip(dayCount-modelDayCount)
                 .map(rate -> rate.getRate().doubleValue())
                 .toList();
         var coefficients = getRegressionCoefficients(lastMonthValues);
-        return new BigDecimal(coefficients.linearCoefficient * (ChronoUnit.DAYS.between(monthBeforeLatest, dateForPrediction)-1) + coefficients.additionalCoefficient);
+        return new BigDecimal(coefficients.linearCoefficient * (ChronoUnit.DAYS.between(latestMinusMonth, dateForPrediction)-1) + coefficients.additionalCoefficient);
     }
 
     private RegressionCoefficients getRegressionCoefficients(List<Double> values) {
