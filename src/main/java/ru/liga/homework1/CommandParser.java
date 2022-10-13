@@ -27,6 +27,6 @@ public class CommandParser {
         String periodString = cmdEntities[ColPeriodNum].toUpperCase();
         if (!Period.checkPeriodName(periodString))
             throw new InvalidCommandException("Неизвестный период " + periodString);
-        return  new CommandParameters(Currency.valueOf(currencyString), Period.valueOf(periodString));
+        return  new CommandParameters(Currency.valueOf(currencyString), currencies, Period.valueOf(periodString), date);
     }
 }
