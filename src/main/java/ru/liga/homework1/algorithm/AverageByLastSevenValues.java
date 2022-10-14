@@ -1,4 +1,6 @@
-package ru.liga.homework1;
+package ru.liga.homework1.algorithm;
+
+import ru.liga.homework1.RateForDate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -1,4 +1,6 @@
-package ru.liga.homework1;
+package ru.liga.homework1.algorithm;
+
+import ru.liga.homework1.RateForDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -8,7 +10,7 @@ import java.util.List;
  * Интерфейс для алгоритмов прогнозирования
  */
 @FunctionalInterface
-interface PredictionAlgorithm {
+public interface PredictionAlgorithm {
     /**
      * Прогнозирующий метод
      * @param exchangeRates упорядоченные по дате курсы валюты

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.liga.homework1.algorithm.PredictionAlgorithm;
 import ru.liga.homework1.enums.Period;
 
 public class ExchangeRatePredictor {
