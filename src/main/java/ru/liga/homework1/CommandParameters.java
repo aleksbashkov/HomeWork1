@@ -39,5 +39,6 @@ public class CommandParameters {
     public OutputType getOutputType() {
         return outputType;
     }
+
     public Algorithm getAlgorithm() { return algorithm; }
 }

@@ -8,7 +8,9 @@ import java.util.Arrays;
 public enum Currency {
     EUR,
     USD,
-    TRY;
+    TRY,
+    BGN,
+    AMD;
 
     public static boolean checkCurrencyName(String currencyName) {
         return Arrays.stream(Currency.values()).anyMatch(cur -> cur.name().equals(currencyName));
