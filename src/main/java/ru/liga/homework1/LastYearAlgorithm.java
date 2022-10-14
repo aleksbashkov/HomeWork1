@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
- * Алгоритм, выдающий в качестве прогноза значение курса год назад
+ * Алгоритм, выдающий в качестве прогноза значение курса в этот день в прошлом году
  */
 public class LastYearAlgorithm implements PredictionAlgorithm {
     @Override
