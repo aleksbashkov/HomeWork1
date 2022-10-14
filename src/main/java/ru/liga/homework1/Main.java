@@ -1,5 +1,6 @@
 package ru.liga.homework1;
 
+import ru.liga.homework1.algorithms.AlgorithmFactory;
 import ru.liga.homework1.exceptions.InvalidCommandException;
 
 import java.util.*;
@@ -27,15 +28,18 @@ public class Main {
         String cmd = in.nextLine();
         var parameters = CommandParser.ParseCommand(cmd);
 
-        // получаем исходные данные:
-        var exchangeRateData = ExchangeRateDataProvider.getSortedExchangeRateData(parameters.getCurrency());
+        var predictor = new ExchangeRatePredictor(AlgorithmFactory.getAlgorithm(parameters.getAlgorithm()));
+        for (var currency : parameters.getCurrencies()) {
+            // получаем исходные данные:
+            var exchangeRateData = ExchangeRateDataProvider.getSortedExchangeRateData(currency);
 
-        // прогнозируем курс валюты на завтра или на следующую неделю алгоритмом AverageByLastSevenValues:
-        var predictor = new ExchangeRatePredictor(exchangeRateData);
-        var result = predictor.doPredictionForPeriod(new AverageByLastSevenValues(), parameters.getPeriod());
+            // прогнозируем курсы:
+            var result = predictor.doPrediction(exchangeRateData, parameters.getPeriod());//?? getDate?
+        }
 
-        // выводим результат в консоль, используя форматтер SimpleFormatter:
-        printPredictionResult(result, new SimpleFormatter());
+//        if (parameters.getOutputType() == OutputType.LIST)
+//            printPredictionResult(result, new SimpleFormatter()); // выводим результат в консоль, используя форматтер SimpleFormatter
+        //?? else draw graph
     }
 
     private static void printPredictionResult(List<RateForDate> prediction, ExchangeRateFormatter formatter) {

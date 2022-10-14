@@ -10,23 +10,28 @@ import ru.liga.homework1.enums.Period;
 
 public class ExchangeRatePredictor {
 
-    final List<RateForDate> incomingData;
+    //final List<RateForDate> incomingData;//??
+    final PredictionAlgorithm algorithm;
+
+    public ExchangeRatePredictor(PredictionAlgorithm algorithm) {
+        this.algorithm = algorithm;
+    }
 
     /**
      * Конструктор
       * @param exchangeRateData - входные данные курсов валюты
      */
-    public ExchangeRatePredictor(List<RateForDate> exchangeRateData) {
-        incomingData = exchangeRateData;
-    }
+//    public ExchangeRatePredictor(List<RateForDate> exchangeRateData) {//?? remove into doPredictionForPeriod?
+//        incomingData = exchangeRateData;
+//    }
 
-    /**
-     * Осуществляет прогнозирование курса валюты
-      * @param algorithm алгоритм, который осуществляет прогнозирование
-     * @param period - период, на который осуществляется прогнозирование
-     * @return - прогноз в виде списка объектов типа RateForDate
-     */
-    public List<RateForDate> doPredictionForPeriod(PredictionAlgorithm algorithm, Period period) {
+//    /**
+//     * Осуществляет прогнозирование курса валюты
+//      * @param algorithm алгоритм, который осуществляет прогнозирование
+//     * @param period - период, на который осуществляется прогнозирование
+//     * @return - прогноз в виде списка объектов типа RateForDate
+//     */
+    public List<RateForDate> doPrediction(List<RateForDate> incomingData, Period period) {
         var result = new ArrayList<RateForDate>();
 
         var tomorrow = LocalDate.now().plusDays(1);
