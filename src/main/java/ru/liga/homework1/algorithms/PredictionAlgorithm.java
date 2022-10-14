@@ -1,4 +1,4 @@
-package ru.liga.homework1.algorithm;
+package ru.liga.homework1.algorithms;
 
 import ru.liga.homework1.RateForDate;
 

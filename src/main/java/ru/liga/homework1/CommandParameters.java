@@ -1,5 +1,6 @@
 package ru.liga.homework1;
 
+import ru.liga.homework1.enums.Algorithm;
 import ru.liga.homework1.enums.Currency;
 import ru.liga.homework1.enums.OutputType;
 import ru.liga.homework1.enums.Period;
@@ -13,12 +14,13 @@ public class CommandParameters {
     private final Period period;
     private final LocalDate date;
     private final OutputType outputType;
+    private final Algorithm algorithm;
 
-
-    public CommandParameters(List<Currency> currencies, Period period, LocalDate date, OutputType outputType) {
+    public CommandParameters(List<Currency> currencies, Period period, LocalDate date, Algorithm algorithm, OutputType outputType) {
         this.currencies = currencies;
         this.date = date;
         this.period = period;
+        this.algorithm = algorithm;
         this.outputType = outputType;
     }
 
@@ -37,4 +39,5 @@ public class CommandParameters {
     public OutputType getOutputType() {
         return outputType;
     }
+    public Algorithm getAlgorithm() { return algorithm; }
 }

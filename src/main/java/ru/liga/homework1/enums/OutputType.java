@@ -9,7 +9,7 @@ public enum OutputType {
     LIST,
     GRAPH;
 
-    public static boolean checkOutputType(String outputTypeName) {
+    public static boolean checkOutputTypeName(String outputTypeName) {
         return Arrays.stream(OutputType.values()).anyMatch(item -> item.name().equals(outputTypeName));
     }
 }
