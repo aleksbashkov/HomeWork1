@@ -87,7 +87,14 @@ public class CommandParser {
 
         // если несколько валют, то д.б. график
         if (currencies.size() > 1 && outputType == OutputType.LIST)
-            throw new InvalidCommandException("Для нескольких валют в качестве типа вывода результатов ожидается " + OutputType.GRAPH);
+            throw new InvalidCommandException("Для нескольких валют в качестве типа вывода результатов ожидается график");
+
+        // если одна дата, то д.б. одна валюта
+        if (date != null && currencies.size() > 1)
+            throw new InvalidCommandException("Для одной даты ожидается только одна валюта");
+
+        if (date != null && outputType == OutputType.GRAPH)
+            throw new InvalidCommandException("Для одной даты в качестве типа вывода результатов график не ожидается");
 
         return  new CommandParameters(currencies, period, date, algorithm, outputType);
     }
