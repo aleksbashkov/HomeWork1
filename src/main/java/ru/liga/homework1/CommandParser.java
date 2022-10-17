@@ -29,7 +29,7 @@ public class CommandParser {
         int algPartIndex = command.indexOf(cmdAlgPart);
         if (!command.startsWith(cmdRatePart) || algPartIndex == -1)
             throw new InvalidCommandException("Неверная команда. Команда должна иметь вид " + cmdTemplate);
-        String beforeAlgStr = command.substring(cmdRatePart.length()+1, algPartIndex-1);
+        String beforeAlgStr = command.substring(0, algPartIndex);
         int datePartIndex = beforeAlgStr.indexOf(cmdDatePart);
         int periodPartIndex = beforeAlgStr.indexOf(cmdPeriodPart);
         if ((datePartIndex != -1 && periodPartIndex != -1) || (datePartIndex == -1 && periodPartIndex == -1))
@@ -43,14 +43,14 @@ public class CommandParser {
             date = dateStr.equals(cmdTomorrowPart)
                 ? LocalDate.now().plusDays(1)
                 : LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-            currenciesStr = beforeAlgStr.substring(cmdDatePart.length(), datePartIndex);
+            currenciesStr = beforeAlgStr.substring(cmdRatePart.length(), datePartIndex);
         }
         else { // period
             String periodStr = beforeAlgStr.substring(periodPartIndex + cmdPeriodPart.length(), algPartIndex);
             if (!Period.checkPeriodName(periodStr.toUpperCase()))
                 throw new InvalidCommandException("Неизвестный период " + periodStr);
             period = Period.valueOf(periodStr.toUpperCase());
-            currenciesStr = beforeAlgStr.substring(cmdPeriodPart.length(), periodPartIndex);
+            currenciesStr = beforeAlgStr.substring(cmdRatePart.length(), periodPartIndex);
         }
 
         // parse currencies:
@@ -77,7 +77,7 @@ public class CommandParser {
         // parse output type:
         OutputType outputType = OutputType.LIST;
         if (outputPartIndex != -1) {
-            String outputTypeStr = afterAlgStr.substring(outputPartIndex);
+            String outputTypeStr = afterAlgStr.substring(outputPartIndex + cmdOutputPart.length());
             if (!OutputType.checkOutputTypeName(outputTypeStr.toUpperCase()))
                 throw new InvalidCommandException("Неизвестный тип вывода прогноза " + outputTypeStr);
             outputType = OutputType.valueOf(outputTypeStr.toUpperCase());
