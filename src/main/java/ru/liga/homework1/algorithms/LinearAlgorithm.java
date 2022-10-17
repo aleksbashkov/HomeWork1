@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class LinearAlgorithm implements PredictionAlgorithm {
 
-    class  RegressionCoefficients {
+    static class RegressionCoefficients {
         private final double linearCoefficient;
         private final double additionalCoefficient;
 
