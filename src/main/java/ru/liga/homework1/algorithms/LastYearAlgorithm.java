@@ -13,7 +13,7 @@ import java.util.List;
 public class LastYearAlgorithm implements PredictionAlgorithm {
     @Override
     public BigDecimal doPrediction(List<RateForDate> exchangeRates, LocalDate dateForPrediction) {
-        var date = LocalDate.of(LocalDate.now().getYear()-1, dateForPrediction.getMonthValue(), dateForPrediction.getDayOfMonth());
+        var date = LocalDate.of(dateForPrediction.getYear()-1, dateForPrediction.getMonthValue(), dateForPrediction.getDayOfMonth());
         var firstDate = exchangeRates.get(0).getDate();
         var lastDate = exchangeRates.get(exchangeRates.size()-1).getDate();
         if (date.isBefore(firstDate) || date.isAfter(lastDate))
