@@ -7,6 +7,7 @@ import java.util.List;
 
 import ru.liga.homework1.algorithms.PredictionAlgorithm;
 import ru.liga.homework1.enums.Period;
+import ru.liga.homework1.model.RateForDate;
 
 public class ExchangeRatePredictor {
 

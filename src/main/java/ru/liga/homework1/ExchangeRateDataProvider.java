@@ -1,6 +1,7 @@
 package ru.liga.homework1;
 
 import ru.liga.homework1.enums.Currency;
+import ru.liga.homework1.model.RateForDate;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

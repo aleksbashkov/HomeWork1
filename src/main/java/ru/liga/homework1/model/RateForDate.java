@@ -1,4 +1,4 @@
-package ru.liga.homework1;
+package ru.liga.homework1.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,10 +1,8 @@
 package ru.liga.homework1;
 
-import ru.liga.homework1.enums.Algorithm;
-import ru.liga.homework1.enums.Currency;
-import ru.liga.homework1.enums.OutputType;
-import ru.liga.homework1.enums.Period;
+import ru.liga.homework1.enums.*;
 import ru.liga.homework1.exceptions.InvalidCommandException;
+import ru.liga.homework1.model.CommandParameters;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

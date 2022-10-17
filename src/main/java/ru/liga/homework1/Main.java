@@ -2,6 +2,7 @@ package ru.liga.homework1;
 
 import ru.liga.homework1.algorithms.AlgorithmFactory;
 import ru.liga.homework1.exceptions.InvalidCommandException;
+import ru.liga.homework1.model.RateForDate;
 
 import java.util.*;
 

@@ -1,5 +1,7 @@
 package ru.liga.homework1;
 
+import ru.liga.homework1.model.RateForDate;
+
 public class SimpleFormatter implements ExchangeRateFormatter {
     @Override
     public String formatCurrencyRate(RateForDate rate) {

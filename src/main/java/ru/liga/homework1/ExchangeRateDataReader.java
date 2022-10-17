@@ -1,5 +1,7 @@
 package ru.liga.homework1;
 
+import ru.liga.homework1.model.RateForDate;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

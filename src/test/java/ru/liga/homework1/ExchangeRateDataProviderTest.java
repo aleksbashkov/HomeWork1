@@ -2,11 +2,13 @@ package ru.liga.homework1;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.liga.homework1.enums.Currency;
 
 import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import ru.liga.homework1.enums.Currency;
+import ru.liga.homework1.model.RateForDate;
 
 class ExchangeRateDataProviderTest {
 
