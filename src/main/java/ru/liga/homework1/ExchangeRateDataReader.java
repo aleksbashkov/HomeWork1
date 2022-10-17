@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * Класс для чтения курсов из csv
@@ -23,21 +22,19 @@ class ExchangeRateDataReader {
      * @return Список курсов с датами
      */
     public List<RateForDate> readExchangeData(String csvFileName) {
-        Stream<String> lines;
-        try (var inputStream = getClass().getResourceAsStream(csvFileName)) {
+        try (var inputStream = getClass().getResourceAsStream("/" + csvFileName)) {
             if (inputStream == null)
                 throw new RuntimeException("Не найден файл " + csvFileName);
             try (var bf = new BufferedReader(new InputStreamReader(inputStream))) {
                 bf.readLine(); // read csv header
-                lines = bf.lines();
+                var lines = bf.lines();
+                var res = new ArrayList<RateForDate>();
+                lines.forEach(line -> res.add(parseCsvString(line)));
+                return res;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        var res = new ArrayList<RateForDate>();
-        lines.forEach(line -> res.add(parseCsvString(line)));
-        return res;
     }
 
     /**

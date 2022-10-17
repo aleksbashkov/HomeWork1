@@ -16,7 +16,7 @@ public class ExchangeRateDataProvider {
     public static List<RateForDate> getSortedExchangeRateData(Currency currency) {
         // считываем данные из файла:
         var reader = new ExchangeRateDataReader();
-        var exchangeRateData = reader.readExchangeData(String.format("/%s.csv", currency.name()));
+        var exchangeRateData = reader.readExchangeData(String.format("%s.csv", currency.name()));
         if (exchangeRateData.size() == 0)
             throw new RuntimeException("Нет данных для валюты " + currency.name());
 
