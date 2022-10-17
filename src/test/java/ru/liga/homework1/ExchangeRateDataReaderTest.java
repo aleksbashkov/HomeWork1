@@ -9,14 +9,14 @@ class ExchangeRateDataReaderTest {
 
     @DisplayName("Кидает исключение, когда на вход подаём несуществующий файл")
     @Test
-    void shouldThrowRuntimeException() {
+    void shouldThrowRuntimeExceptionIfNonexistentFile() {
         var reader = new ExchangeRateDataReader();
         assertThrows(RuntimeException.class, () -> reader.readExchangeData("SomeNonexistentFile.csv"));
     }
 
     @DisplayName("Кидает исключение, когда на вход подаём файл с некорректным содержанием")
     @Test
-    void shouldThrowNumberFormatException() {
+    void shouldThrowNumberFormatExceptionIfIncorrectData() {
         var reader = new ExchangeRateDataReader();
         assertThrows(NumberFormatException.class, () -> reader.readExchangeData("EUR_wrong_data.csv"));
     }
