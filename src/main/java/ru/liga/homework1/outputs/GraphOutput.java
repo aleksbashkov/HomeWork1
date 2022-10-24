@@ -45,6 +45,7 @@ public class GraphOutput implements Output {
             setContentPane(chartPanel);
         }
     }
+
      private static ChartPanel createPanel(List<CurrencyData> predictionResult) {
             JFreeChart chart = createChart(createDataset(predictionResult));
             ChartPanel panel = new ChartPanel(chart, false);
@@ -52,6 +53,7 @@ public class GraphOutput implements Output {
             panel.setMouseWheelEnabled(true);
             return panel;
         }
+
     private static JFreeChart createChart(XYDataset dataset) {
         JFreeChart chart = ChartFactory.createTimeSeriesChart(title, "Date", "Currency exchange rate", dataset);
 
@@ -68,6 +70,7 @@ public class GraphOutput implements Output {
 
         return chart;
     }
+
     private static XYDataset createDataset(List<CurrencyData> predictionResult) {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         for (var currencyData : predictionResult)
