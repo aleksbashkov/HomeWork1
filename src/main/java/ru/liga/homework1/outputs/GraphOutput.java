@@ -6,7 +6,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.ui.ApplicationFrame;
-import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.chart.ui.UIUtils;
 import org.jfree.data.time.*;
 import org.jfree.data.xy.XYDataset;
@@ -14,7 +13,6 @@ import org.jfree.data.xy.XYDataset;
 import ru.liga.homework1.exceptions.InvalidOutputParametersException;
 import ru.liga.homework1.model.CurrencyData;
 
-import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -47,27 +45,18 @@ public class GraphOutput implements Output {
     }
 
      private static ChartPanel createPanel(List<CurrencyData> predictionResult) {
-            JFreeChart chart = createChart(createDataset(predictionResult));
-            ChartPanel panel = new ChartPanel(chart, false);
-            panel.setFillZoomRectangle(true);
-            panel.setMouseWheelEnabled(true);
-            return panel;
+         JFreeChart chart = createChart(createDataset(predictionResult));
+         ChartPanel panel = new ChartPanel(chart, false);
+         panel.setFillZoomRectangle(true);
+         panel.setMouseWheelEnabled(true);
+         return panel;
         }
 
     private static JFreeChart createChart(XYDataset dataset) {
         JFreeChart chart = ChartFactory.createTimeSeriesChart(title, "Date", "Currency exchange rate", dataset);
-
-        chart.setBackgroundPaint(Color.WHITE);
-
         XYPlot plot = (XYPlot) chart.getPlot();
-        plot.setBackgroundPaint(Color.LIGHT_GRAY);
-        plot.setDomainGridlinePaint(Color.WHITE);
-        plot.setRangeGridlinePaint(Color.WHITE);
-        plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-
         DateAxis axis = (DateAxis) plot.getDomainAxis();
         axis.setDateFormatOverride(new SimpleDateFormat("dd.MM.yyyy"));
-
         return chart;
     }
 
