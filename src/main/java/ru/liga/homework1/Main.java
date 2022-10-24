@@ -2,7 +2,9 @@ package ru.liga.homework1;
 
 import ru.liga.homework1.algorithms.AlgorithmFactory;
 import ru.liga.homework1.exceptions.InvalidCommandException;
-import ru.liga.homework1.model.RateForDate;
+import ru.liga.homework1.exceptions.InvalidOutputParametersException;
+import ru.liga.homework1.model.CurrencyData;
+import ru.liga.homework1.outputs.OutputFactory;
 
 import java.util.*;
 
@@ -30,21 +32,22 @@ public class Main {
         var parameters = CommandParser.ParseCommand(cmd);
 
         var predictor = new ExchangeRatePredictor(AlgorithmFactory.getAlgorithm(parameters.getAlgorithm()));
+        var predictionResult = new ArrayList<CurrencyData>();
         for (var currency : parameters.getCurrencies()) {
             // получаем исходные данные:
             var exchangeRateData = ExchangeRateDataProvider.getSortedExchangeRateData(currency);
 
             // прогнозируем курсы:
             var result = predictor.doPrediction(exchangeRateData, parameters.getPeriod());//?? getDate?
+            predictionResult.add(new CurrencyData(currency, result));
         }
 
-//        if (parameters.getOutputType() == OutputType.LIST)
-//            printPredictionResult(result, new SimpleFormatter()); // выводим результат в консоль, используя форматтер SimpleFormatter
-        //?? else draw graph
-    }
+        var output = OutputFactory.getOutput(parameters.getOutputType());
+        try {
+            output.doOutput(predictionResult);
+        } catch (InvalidOutputParametersException e) {
+            //??
+        }
 
-    private static void printPredictionResult(List<RateForDate> prediction, ExchangeRateFormatter formatter) {
-        prediction
-            .forEach(rate -> System.out.println(formatter.formatCurrencyRate(rate)));
     }
 }

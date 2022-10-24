@@ -11,20 +11,11 @@ import ru.liga.homework1.model.RateForDate;
 
 public class ExchangeRatePredictor {
 
-    //final List<RateForDate> incomingData;//??
     final PredictionAlgorithm algorithm;
 
     public ExchangeRatePredictor(PredictionAlgorithm algorithm) {
         this.algorithm = algorithm;
     }
-
-    /**
-     * Конструктор
-      * @param exchangeRateData - входные данные курсов валюты
-     */
-//    public ExchangeRatePredictor(List<RateForDate> exchangeRateData) {//?? remove into doPredictionForPeriod?
-//        incomingData = exchangeRateData;
-//    }
 
 //    /**
 //     * Осуществляет прогнозирование курса валюты
