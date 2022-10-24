@@ -51,7 +51,6 @@ public class GraphOutput implements Output {
             panel.setFillZoomRectangle(true);
             panel.setMouseWheelEnabled(true);
             return panel;
-
         }
     private static JFreeChart createChart(XYDataset dataset) {
         JFreeChart chart = ChartFactory.createTimeSeriesChart(title, "Date", "Currency exchange rate", dataset);
