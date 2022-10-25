@@ -24,7 +24,7 @@ public class ExchangeRatePredictor {
      * @param dates - список дат, на которые делается прогноз
      * @return прогноз в виде списка объектов типа RateForDate
      */
-    public List<RateForDate> doPrediction(List<RateForDate> incomingData, List<LocalDate> dates) {
+    public List<RateForDate> doPrediction(final List<RateForDate> incomingData, final List<LocalDate> dates) {
         var result = new ArrayList<RateForDate>();
         for (var date : dates)
             result.add(new RateForDate(date, algorithm.doPrediction(incomingData, date)));
