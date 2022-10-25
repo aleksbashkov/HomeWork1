@@ -11,7 +11,7 @@ import java.util.List;
 public class ListOutput implements Output {
     @Override
     public void doOutput(List<CurrencyData> predictionResult) throws InvalidOutputParametersException {
-        if (predictionResult.size() == 0)
+        if (predictionResult == null || predictionResult.size() == 0)
             throw new InvalidOutputParametersException("Нет данных");
         if (predictionResult.size() > 1)
             throw new InvalidOutputParametersException("Вывод в консоль предполагает данные только по одной валюте");

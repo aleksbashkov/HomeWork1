@@ -22,7 +22,7 @@ import java.util.List;
 public class GraphOutput implements Output {
     @Override
     public void doOutput(List<CurrencyData> predictionResult) throws InvalidOutputParametersException {
-        if (predictionResult.size() == 0)
+        if (predictionResult == null || predictionResult.size() == 0)
             throw new InvalidOutputParametersException("Нет данных");
 
         ExchangeRateChart graph = new ExchangeRateChart(createPanel(predictionResult));
